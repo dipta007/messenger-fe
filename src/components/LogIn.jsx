@@ -1,73 +1,148 @@
 import React from "react";
-import { Grid, TextField, Button, Paper, makeStyles } from "@material-ui/core";
+import Avatar from "@material-ui/core/Avatar";
+import Button from "@material-ui/core/Button";
+import CssBaseline from "@material-ui/core/CssBaseline";
+import TextField from "@material-ui/core/TextField";
+import FormControlLabel from "@material-ui/core/FormControlLabel";
+import Checkbox from "@material-ui/core/Checkbox";
+import Link from "@material-ui/core/Link";
+import Grid from "@material-ui/core/Grid";
+import Box from "@material-ui/core/Box";
+import LockOutlinedIcon from "@material-ui/icons/LockOutlined";
+import Typography from "@material-ui/core/Typography";
+import { makeStyles } from "@material-ui/core/styles";
+import Container from "@material-ui/core/Container";
 import { useHistory } from "react-router-dom";
 import axios from "../lib/axios";
 import { useSnackbar } from "notistack";
 
-const useStyle = makeStyles((theme) => ({
-  container: {
-    height: "100vh",
-  },
+function Copyright() {
+  return (
+    <Typography variant="body2" color="textSecondary" align="center">
+      {"Copyright © "}
+      <Link color="inherit" href="https://material-ui.com/">
+        dipta007
+      </Link>{" "}
+      {new Date().getFullYear()}
+      {"."}
+    </Typography>
+  );
+}
+
+const useStyles = makeStyles((theme) => ({
   paper: {
-    padding: theme.spacing(2),
+    marginTop: theme.spacing(8),
     display: "flex",
     flexDirection: "column",
-    backgroundColor: theme.palette.primary.light,
+    alignItems: "center",
   },
-  input: {
-    margin: theme.spacing(2),
+  avatar: {
+    margin: theme.spacing(1),
+    backgroundColor: theme.palette.secondary.main,
+  },
+  form: {
+    width: "100%", // Fix IE 11 issue.
+    marginTop: theme.spacing(1),
+  },
+  submit: {
+    margin: theme.spacing(3, 0, 2),
   },
 }));
 
-function LogIn() {
+export default function LogIn() {
+  const classes = useStyles();
+
   const [username, setUsername] = React.useState("");
   const [password, setPassword] = React.useState("");
   const { enqueueSnackbar } = useSnackbar();
   const history = useHistory();
 
-  const login = async () => {
+  const login = async (e) => {
+    e.preventDefault();
     try {
       const ret = await axios.post("/login", {
         username,
         password,
       });
       localStorage.setItem("token", ret.data.access_token);
-      history.replace("/");
+      history.replace("/chat");
     } catch (err) {
       enqueueSnackbar(err.response.data.message, { variant: "error" });
     }
   };
 
-  const classes = useStyle();
+  React.useEffect(() => {
+    if (localStorage.getItem("token")) {
+      history.replace("/chat");
+    }
+  }, []);
+
   return (
-    <Grid
-      container
-      direction="row"
-      xs={12}
-      alignItems="center"
-      justify="center"
-      className={classes.container}
-    >
-      <Paper elevation={4} className={classes.paper}>
-        <TextField
-          label="Email"
-          onChange={(e) => setUsername(e.target.value)}
-          value={username}
-          className={classes.input}
-        />
-        <TextField
-          label="Password"
-          type="password"
-          onChange={(e) => setPassword(e.target.value)}
-          value={password}
-          className={classes.input}
-        />
-        <Button variant="contained" color="primary" onClick={login}>
-          Log In
-        </Button>
-      </Paper>
-    </Grid>
+    <Container component="main" maxWidth="xs">
+      <CssBaseline />
+      <div className={classes.paper}>
+        <Avatar className={classes.avatar}>
+          <LockOutlinedIcon />
+        </Avatar>
+        <Typography component="h1" variant="h5">
+          Sign in
+        </Typography>
+        <form className={classes.form} onSubmit={login}>
+          <TextField
+            variant="outlined"
+            margin="normal"
+            required
+            fullWidth
+            label="Email Address"
+            name="email"
+            autoComplete="email"
+            autoFocus
+            onChange={(e) => setUsername(e.target.value)}
+            value={username}
+          />
+          <TextField
+            variant="outlined"
+            margin="normal"
+            required
+            fullWidth
+            name="password"
+            label="Password"
+            type="password"
+            autoComplete="current-password"
+            type="password"
+            onChange={(e) => setPassword(e.target.value)}
+            value={password}
+          />
+          {/* <FormControlLabel
+            control={<Checkbox value="remember" color="primary" />}
+            label="Remember me"
+          /> */}
+          <Button
+            type="submit"
+            fullWidth
+            variant="contained"
+            color="primary"
+            className={classes.submit}
+          >
+            Sign In
+          </Button>
+          <Grid container>
+            {/* <Grid item xs>
+              <Link href="#" variant="body2">
+                Forgot password?
+              </Link>
+            </Grid> */}
+            <Grid item>
+              <Link href="/signup" variant="body2">
+                {"Don't have an account? Sign Up"}
+              </Link>
+            </Grid>
+          </Grid>
+        </form>
+      </div>
+      <Box mt={8}>
+        <Copyright />
+      </Box>
+    </Container>
   );
 }
-
-export default LogIn;
