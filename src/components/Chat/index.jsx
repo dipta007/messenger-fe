@@ -3,16 +3,15 @@ import ConversationList from "./ConversationList";
 import MessageList from "./MessageList";
 import "./Messenger.css";
 
-export default function Messenger(props) {
-  const [selectedConversation, setSelectedConversation] = React.useState(null);
+export default function Messenger() {
   return (
     <div className="messenger">
       <div className="scrollable sidebar">
-        <ConversationList setSelectedConversation={setSelectedConversation} />
+        <ConversationList />
       </div>
 
       <div className="scrollable content">
-        <MessageList selectedConversation={selectedConversation} />
+        <MessageList />
       </div>
     </div>
   );

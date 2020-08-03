@@ -1,14 +1,15 @@
 import React, { useState, useEffect } from "react";
-import ConversationSearch from "../ConversationSearch";
+// import ConversationSearch from "../ConversationSearch";
 import ConversationListItem from "../ConversationListItem";
 import Toolbar from "../Toolbar";
 import ToolbarButton from "../ToolbarButton";
 import axios from "../../../lib/axios";
-
+import UserSearch from "../UserSearch";
 import "./ConversationList.css";
 
 export default function ConversationList({ setSelectedConversation }) {
   const [conversations, setConversations] = useState([]);
+  const [userSearchView, setUserSearchView] = useState(false);
 
   useEffect(() => {
     getConversations();
@@ -39,7 +40,7 @@ export default function ConversationList({ setSelectedConversation }) {
           // <ToolbarButton key="cog" icon="ion-ios-cog" />
         ]}
         rightItems={[
-          <ToolbarButton key="add" icon="ion-ios-add-circle-outline" />,
+          <ToolbarButton key="add" icon="ion-ios-add-circle-outline" onClick={() => setUserSearchView(true)} />,
         ]}
       />
       {/* <ConversationSearch /> */}
@@ -50,6 +51,8 @@ export default function ConversationList({ setSelectedConversation }) {
           setSelectedConversation={setSelectedConversation}
         />
       ))}
+
+      <UserSearch isOpen={userSearchView} handleClose={() => setUserSearchView(false)} />
     </div>
   );
 }
