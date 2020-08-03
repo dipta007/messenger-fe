@@ -19,22 +19,28 @@ const useStyle = makeStyles((theme) => ({
   },
 }));
 
-function LogIn() {
+function SignUp() {
+  const [name, setName] = React.useState("");
   const [username, setUsername] = React.useState("");
   const [password, setPassword] = React.useState("");
-  const { enqueueSnackbar } = useSnackbar();
   const history = useHistory();
 
-  const login = async () => {
-    try {
-      const ret = await axios.post("/login", {
-        username,
-        password,
-      });
-      localStorage.setItem("token", ret.data.access_token);
-      history.replace("/");
-    } catch (err) {
-      enqueueSnackbar(err.response.data.message, { variant: "error" });
+  const { enqueueSnackbar, closeSnackbar } = useSnackbar();
+
+  const signup = async () => {
+    if (name && username && password) {
+      try {
+        await axios.post("/signup", {
+          name,
+          username,
+          password,
+        });
+        history.push('/');
+      } catch (err) {
+        enqueueSnackbar(err.response.data.message, { variant: "error" });
+      }
+    } else {
+      enqueueSnackbar("Please provide all the fields", { variant: "warning" });
     }
   };
 
@@ -50,6 +56,12 @@ function LogIn() {
     >
       <Paper elevation={4} className={classes.paper}>
         <TextField
+          label="Name"
+          onChange={(e) => setName(e.target.value)}
+          value={name}
+          className={classes.input}
+        />
+        <TextField
           label="Email"
           onChange={(e) => setUsername(e.target.value)}
           value={username}
@@ -62,12 +74,12 @@ function LogIn() {
           value={password}
           className={classes.input}
         />
-        <Button variant="contained" color="primary" onClick={login}>
-          Log In
+        <Button variant="contained" color="primary" onClick={signup}>
+          Sign Up
         </Button>
       </Paper>
     </Grid>
   );
 }
 
-export default LogIn;
+export default SignUp;
