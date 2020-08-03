@@ -4,10 +4,9 @@ import { SWRConfig } from "swr";
 import { SnackbarProvider } from "notistack";
 import CssBaseline from "@material-ui/core/CssBaseline";
 import LogIn from "./components/LogIn";
-import Chat from "./components/Chat";
-import { Container } from "@material-ui/core";
 import axios from "./lib/axios";
 import SignUp from "./components/SignUp";
+import ChatNew from './components/Chat/index';
 
 const fetcher = (url) => axios.get(url).then((res) => res.data);
 
@@ -19,22 +18,20 @@ function App() {
       }}
     >
       <SnackbarProvider maxSnack={4}>
-        <Container maxWidth="md">
-          <CssBaseline />
-          <Router>
-            <Switch>
-              <Route path="/signup">
-                <SignUp />
-              </Route>
-              <Route path="/chat">
-                <Chat />
-              </Route>
-              <Route path="/">
-                <LogIn />
-              </Route>
-            </Switch>
-          </Router>
-        </Container>
+        <CssBaseline />
+        <Router>
+          <Switch>
+            <Route path="/signup">
+              <SignUp />
+            </Route>
+            <Route path="/chat">
+              <ChatNew />
+            </Route>
+            <Route path="/">
+              <LogIn />
+            </Route>
+          </Switch>
+        </Router>
       </SnackbarProvider>
     </SWRConfig>
   );

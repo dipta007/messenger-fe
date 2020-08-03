@@ -65,6 +65,7 @@ export default function LogIn() {
         password,
       });
       localStorage.setItem("token", ret.data.access_token);
+      localStorage.setItem("userId", ret.data.userId);
       history.replace("/chat");
     } catch (err) {
       enqueueSnackbar(err.response.data.message, { variant: "error" });

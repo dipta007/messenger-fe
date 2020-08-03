@@ -4,9 +4,8 @@ import { API_URL } from './constants';
 const Axios = axios.create({
   baseURL: `${API_URL}`,
   headers: {
-    Authorization:
-      typeof window !== 'undefined' && localStorage.getItem('token')
-        ? `Token ${localStorage.getItem('token')}`
+    Authorization: localStorage.getItem('token')
+        ? `Bearer ${localStorage.getItem('token')}`
         : null,
   },
 });
