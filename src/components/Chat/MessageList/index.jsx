@@ -41,6 +41,7 @@ export default function MessageList() {
     if (room) {
       // socket = io(WS_URL, { path: WS_PATH });
       socket = io(WS_URL, { path: WS_PATH });
+      console.log('tcl', WS_URL, WS_PATH)
 
       socket.on("connect", () => {
         socket.emit("JoinRoom", { room, id: MY_USER_ID }, (roomId) => {
