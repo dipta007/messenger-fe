@@ -1,28 +1,41 @@
 import React from "react";
-import { Dialog, DialogTitle, DialogContent, DialogContentText, TextField, DialogActions, Button } from "@material-ui/core";
-import axios from '../../../lib/axios';
-import { useHistory } from 'react-router-dom';
-import { useSnackbar } from 'notistack';
+import {
+  Dialog,
+  DialogTitle,
+  DialogContent,
+  DialogContentText,
+  TextField,
+  DialogActions,
+  Button,
+} from "@material-ui/core";
+import axios from "../../../lib/axios";
+import { useHistory } from "react-router-dom";
+import { useSnackbar } from "notistack";
 
 function UserSearch({ isOpen, handleClose }) {
-  const [email, setEmail] = React.useState('');
-  const [name, setName] = React.useState('')
+  const [email, setEmail] = React.useState("");
+  const [name, setName] = React.useState("");
   const history = useHistory();
   const { enqueueSnackbar } = useSnackbar();
 
   const findUser = async () => {
     try {
-      const ret = await axios.post("/conversations/open", { name, username: email });
+      const ret = await axios.post("/conversations/open", {
+        name,
+        username: email,
+      });
       if (ret?.data?._id) {
+        setName("");
+        setEmail("");
         handleClose();
         history.push(`/chat?room=${ret.data._id}`);
       } else {
-        enqueueSnackbar('User Not Found', { variant: 'warning' })
+        enqueueSnackbar("User Not Found", { variant: "warning" });
       }
     } catch (err) {
       console.log(err);
     }
-  }
+  };
 
   return (
     <Dialog open={isOpen} onClose={handleClose}>
@@ -43,7 +56,6 @@ function UserSearch({ isOpen, handleClose }) {
         />
 
         <TextField
-          autoFocus
           margin="dense"
           label="Email Address"
           type="email"
@@ -52,12 +64,13 @@ function UserSearch({ isOpen, handleClose }) {
           onChange={(e) => setEmail(e.target.value)}
         />
       </DialogContent>
+
       <DialogActions>
         <Button onClick={handleClose} color="primary">
           Cancel
         </Button>
         <Button onClick={findUser} color="primary">
-          Find
+          Create
         </Button>
       </DialogActions>
     </Dialog>
