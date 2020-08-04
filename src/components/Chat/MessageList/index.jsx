@@ -9,7 +9,7 @@ import "./MessageList.css";
 import { useLocation, useHistory } from "react-router-dom";
 import queryString from "query-string";
 import { TextField } from "@material-ui/core";
-import { WS_URL } from "../../../lib/constants";
+import { WS_URL, WS_PATH } from "../../../lib/constants";
 
 let socket;
 
@@ -39,7 +39,8 @@ export default function MessageList() {
 
   useEffect(() => {
     if (room) {
-      socket = io(WS_URL);
+      // socket = io(WS_URL, { path: WS_PATH });
+      socket = io(WS_URL, { path: WS_PATH });
 
       socket.on("connect", () => {
         socket.emit("JoinRoom", { room, id: MY_USER_ID }, (roomId) => {
