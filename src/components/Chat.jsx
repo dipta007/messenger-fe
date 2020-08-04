@@ -3,7 +3,7 @@ import io from "socket.io-client";
 import { Grid } from '@material-ui/core';
 import { useLocation, useHistory } from 'react-router-dom';
 import queryString from 'query-string';
-const ENDPOINT = "http://localhost:8080";
+import { WS_URL } from '../lib/constants';
 
 let socket;
 
@@ -17,7 +17,7 @@ function Chat() {
   const { room, id: username } = params;
 
   useEffect(() => {
-    socket = io(ENDPOINT);
+    socket = io(WS_URL);
     
     socket.on('connect', () => {
       socket.emit('JoinRoom', { room: params.room, id: params.id }, (data) => {
