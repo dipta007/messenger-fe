@@ -17,7 +17,7 @@ function Chat() {
   const { room, id: username } = params;
 
   useEffect(() => {
-    socket = io(WS_URL);
+    socket = io(WS_URL, { path: '/chat/socket.io' });
     
     socket.on('connect', () => {
       socket.emit('JoinRoom', { room: params.room, id: params.id }, (data) => {
