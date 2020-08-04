@@ -1,6 +1,5 @@
 {
   "name": "client",
-  "homepage": "http://dipta007.github.io/messenger",
   "version": "0.1.0",
   "private": true,
   "dependencies": {
