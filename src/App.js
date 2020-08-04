@@ -19,7 +19,7 @@ function App() {
     >
       <SnackbarProvider maxSnack={4}>
         <CssBaseline />
-        <Router>
+        <Router basename={process.env.PUBLIC_URL}>
           <Switch>
             <Route path="/signup">
               <SignUp />
