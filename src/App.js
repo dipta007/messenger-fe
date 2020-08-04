@@ -1,5 +1,5 @@
 import React from "react";
-import { HashRouter as Router, Switch, Route } from "react-router-dom";
+import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 import { SWRConfig } from "swr";
 import { SnackbarProvider } from "notistack";
 import CssBaseline from "@material-ui/core/CssBaseline";
@@ -19,12 +19,12 @@ function App() {
     >
       <SnackbarProvider maxSnack={4}>
         <CssBaseline />
-        <Router basename='/'>
+        <Router>
           <Switch>
-            <Route exact path="/signup">
+            <Route path="/signup">
               <SignUp />
             </Route>
-            <Route exact path="/chat">
+            <Route path="/chat">
               <ChatNew />
             </Route>
             <Route path="/">
