@@ -54,7 +54,7 @@ export default function SignUp() {
   const [password, setPassword] = React.useState("");
   const history = useHistory();
 
-  const { enqueueSnackbar, closeSnackbar } = useSnackbar();
+  const { enqueueSnackbar } = useSnackbar();
 
   const signup = async (e) => {
     e.preventDefault();

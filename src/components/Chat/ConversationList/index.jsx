@@ -12,25 +12,27 @@ export default function ConversationList({ setSelectedConversation }) {
   const [userSearchView, setUserSearchView] = useState(false);
 
   useEffect(() => {
+    const getConversations = async () => {
+      const response = await axios.get("/conversations/list");
+      let newConversations = response?.data?.map((result) => {
+        return {
+          id: result._id,
+          photo:
+            result?.picture?.large ||
+            "https://pbs.twimg.com/profile_images/857490466572443648/c05JqEgo.jpg",
+          name: `${result.name}`,
+          text: "",
+        };
+      });
+      if (newConversations) {
+        setConversations([...conversations, ...newConversations]);
+      }
+    };
+    
     getConversations();
   }, []);
 
-  const getConversations = async () => {
-    const response = await axios.get("/conversations/list");
-    let newConversations = response?.data?.map((result) => {
-      return {
-        id: result._id,
-        photo:
-          result?.picture?.large ||
-          "https://pbs.twimg.com/profile_images/857490466572443648/c05JqEgo.jpg",
-        name: `${result.name}`,
-        text: "",
-      };
-    });
-    if (newConversations) {
-      setConversations([...conversations, ...newConversations]);
-    }
-  };
+  
 
   return (
     <div className="conversation-list">
